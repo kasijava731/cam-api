@@ -36,7 +36,8 @@ public class UserController {
     // ✅ GET (Get Single User)
     @GetMapping("/{id}")
     public UserEntity getUserById(@PathVariable Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+//        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return userRepository.findById(id).orElseThrow();
     }
 
     // ✅ PUT (Update User by ID)
