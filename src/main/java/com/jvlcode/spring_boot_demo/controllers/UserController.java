@@ -6,6 +6,7 @@ import java.util.List;
 import com.jvlcode.spring_boot_demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.jvlcode.spring_boot_demo.entity.UserEntity;
@@ -16,10 +17,19 @@ import com.jvlcode.spring_boot_demo.repository.UserRepository;
 @RequestMapping("/api/users")
 public class UserController {
 	
-	@Autowired
-	private UserRepository userRepository;
-	
-	// ✅ GET (Get All Users)
+//	@Autowired
+//	private UserRepository userRepository;
+
+    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserController(UserRepository userRepository, PasswordEncoder passen) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passen;
+    }
+
+    // ✅ GET (Get All Users)
 	@GetMapping
 	public List<UserEntity> getUsers() {
 //		return Arrays.asList(new UserEntity(1L, "Logesh", "logesh@gmail.com"));
@@ -30,6 +40,7 @@ public class UserController {
 	// ✅ POST (Create New User)
     @PostMapping
     public UserEntity createUser(@RequestBody UserEntity user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
     

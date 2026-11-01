@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 @ResponseBody
 public class Homecontroller {
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public String home() {
         return "Login successful! Welcome to Spring Boot. My spring security just redirect into this because no other controller mapped to the security configuration class yet ";
+    }
+    @GetMapping("/dashboard")
+    public String getDashboard(){
+        return "Login succesfull";
     }
 }
