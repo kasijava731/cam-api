@@ -22,77 +22,45 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @Profile("default")
 public class SecurityConfig {
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-////        return http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated()).build();
-////       return http.authorizeHttpRequests(auth-> auth.requestMatchers("/api/users/**").permitAll().requestMatchers("home").permitAll()).build();
-//        return  http.authorizeHttpRequests(auth-> auth
-//                        .requestMatchers(HttpMethod.POST,"/api/users").permitAll()
-//                        .requestMatchers("/api/users/**").authenticated()
-////                        .requestMatchers("/").permitAll()
-//                        .anyRequest().permitAll())
-//                .formLogin(f->f.permitAll() .defaultSuccessUrl("/dashboard"))
-//                .csrf(c->c.disable())
-//                .build();
-//
-//    }
-
-//    @Bean
-//    public UserDetailsService userDetailService( ){
-////        UserDetails user= User.withUsername("alice")
-////                .password(passen.encode("user123"))
-////                .roles("user")
-////                .build();
-////        UserDetails admin= User.withUsername("zack")
-////                .password(passen.encode("admin123"))
-////                .roles("ADMIN")
-////                .build();
-////
-////        return new InMemoryUserDetailsManager(user,admin);
-//
-//        return  new CustomUserDetailsService();
-//    }
-
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider(){
-//        DaoAuthenticationProvider authprovider=new DaoAuthenticationProvider();
-//        authprovider.setUserDetailsService(userDetailService());
-//        authprovider.setPasswordEncoder(passwordEncoder());
-//        return authprovider;
-
-@Bean
-public SecurityFilterChain OfSecurityFilterChain(HttpSecurity http) throws Exception {
-    return http.authorizeHttpRequests(h->h
-                    .requestMatchers(HttpMethod.POST,"/api/ofusers").permitAll()
-                    .requestMatchers("/api/ofusers/**").authenticated()
-                    .anyRequest().permitAll())
-            .formLogin(f->f.permitAll().defaultSuccessUrl("/dashboard"))
-            .csrf(c->c.disable())
-            .build();
-}
     @Bean
-    public UserDetailsService ofUserDetailsService(PasswordEncoder passen) {
-
-        UserDetails user= User.withUsername("alice")
-                .password(passen.encode("user123"))
-                .roles("user")
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        return http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated()).build();
+//       return http.authorizeHttpRequests(auth-> auth.requestMatchers("/api/users/**").permitAll().requestMatchers("home").permitAll()).build();
+        return  http.authorizeHttpRequests(auth-> auth
+                        .requestMatchers(HttpMethod.POST,"/api/users").permitAll()
+                        .requestMatchers("/api/users/**").authenticated()
+//                        .requestMatchers("/").permitAll()
+                        .anyRequest().permitAll())
+                .formLogin(f->f.permitAll() .defaultSuccessUrl("/dashboard"))
+                .csrf(c->c.disable())
                 .build();
-        UserDetails admin= User.withUsername("zack")
-                .password(passen.encode("admin123"))
-                .roles("ADMIN")
-                .build();
 
-        return new InMemoryUserDetailsManager(user,admin);
-//        return new OfCustomUserDetailsService();
     }
 
-//    @Bean
-//    public DaoAuthenticationProvider ofauthenticationProvider(){
-//        DaoAuthenticationProvider authprovider=new DaoAuthenticationProvider();
-//        authprovider.setUserDetailsService(ofUserDetailsService());
-//        authprovider.setPasswordEncoder(passwordEncoder());
-//        return authprovider;
-//    }
+    @Bean
+    public UserDetailsService userDetailService( ){
+//        UserDetails user= User.withUsername("alice")
+//                .password(passen.encode("user123"))
+//                .roles("user")
+//                .build();
+//        UserDetails admin= User.withUsername("zack")
+//                .password(passen.encode("admin123"))
+//                .roles("ADMIN")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(user,admin);
+
+        return  new CustomUserDetailsService();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authprovider = new DaoAuthenticationProvider();
+        authprovider.setUserDetailsService(userDetailService());
+        authprovider.setPasswordEncoder(passwordEncoder());
+        return authprovider;
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
